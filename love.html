@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Roshni ❤️</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    height:100vh;
+    overflow:hidden;
+    background:linear-gradient(135deg,#1a001f,#3b003b,#000);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:white;
+}
+
+/* Glass Card */
+.card{
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(15px);
+    padding:40px 30px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 0 50px rgba(255,0,100,0.5);
+    width:90%;
+    max-width:400px;
+    z-index:5;
+}
+
+h1{
+    font-size:1.8rem;
+    margin-bottom:30px;
+    animation:heartbeat 1.5s infinite;
+}
+
+@keyframes heartbeat{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.08);}
+    100%{transform:scale(1);}
+}
+
+.button-row{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+}
+
+button{
+    padding:12px 28px;
+    border:none;
+    border-radius:30px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+#yesBtn{
+    background:linear-gradient(45deg,#ff0055,#ff3366);
+    color:white;
+    transition:0.3s;
+}
+
+#yesBtn:hover{
+    transform:scale(1.1);
+    box-shadow:0 0 20px #ff3366;
+}
+
+#noBtn{
+    background:#222;
+    color:white;
+    position:relative;
+    transition:left 0.25s ease, top 0.25s ease;
+}
+
+.celebrate{
+    font-size:2rem;
+    text-align:center;
+    animation:pop 1s ease forwards;
+}
+
+@keyframes pop{
+    0%{transform:scale(0);opacity:0;}
+    100%{transform:scale(1);opacity:1;}
+}
+
+@media(max-width:480px){
+    h1{font-size:1.5rem;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+    <h1>Will you be my Valentine, Roshni? ❤️</h1>
+    <div class="button-row">
+        <button id="yesBtn">Yes 💖</button>
+        <button id="noBtn">No 😢</button>
+    </div>
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+
+let escaped = false;
+
+/* ===================== */
+/* SAFE NO BUTTON LOGIC  */
+/* ===================== */
+
+function moveFar(){
+
+    const rect = noBtn.getBoundingClientRect();
+
+    if(!escaped){
+        noBtn.style.position = "fixed";
+        noBtn.style.left = rect.left + "px";
+        noBtn.style.top = rect.top + "px";
+        escaped = true;
+    }
+
+    const btnWidth = noBtn.offsetWidth;
+    const btnHeight = noBtn.offsetHeight;
+
+    const margin = 10;
+
+    const maxX = document.documentElement.clientWidth - btnWidth - margin;
+    const maxY = document.documentElement.clientHeight - btnHeight - margin;
+
+    let randomX = Math.random() * maxX;
+    let randomY = Math.random() * maxY;
+
+    randomX = Math.max(margin, Math.min(randomX, maxX));
+    randomY = Math.max(margin, Math.min(randomY, maxY));
+
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
+}
+
+noBtn.addEventListener("mouseenter", moveFar);
+noBtn.addEventListener("touchstart", function(e){
+    e.preventDefault();
+    moveFar();
+});
+
+/* ===================== */
+/* CELEBRATION           */
+/* ===================== */
+
+yesBtn.addEventListener("click", function(){
+    document.body.innerHTML = `
+        <div class="celebrate">
+            💕 Roshni Said YES! 🌹❤️<br><br>
+            Forever Begins Now 💖
+        </div>
+    `;
+    startCrazyRomance();
+});
+
+/* ===================== */
+/* ADVANCED ANIMATION    */
+/* ===================== */
+
+function createElement(symbol){
+    const el = document.createElement("div");
+    el.innerHTML = symbol;
+    el.style.position = "fixed";
+    el.style.pointerEvents = "none";
+    el.style.zIndex = "1";
+    el.style.fontSize = (Math.random()*25 + 15) + "px";
+    document.body.appendChild(el);
+    return el;
+}
+
+/* Vertical Falling */
+function verticalFall(){
+    const el = createElement(Math.random()>0.5?"❤️":"🌹");
+    el.style.left = Math.random()*window.innerWidth + "px";
+    el.style.top = "-40px";
+    el.animate([
+        {transform:"translateY(0) scale(0.4)",opacity:0.8},
+        {transform:"translateY(100vh) scale(1.6)",opacity:0}
+    ],{duration:4000,easing:"linear"});
+    setTimeout(()=>el.remove(),4000);
+}
+
+/* Horizontal Slide */
+function horizontalMove(){
+    const el = createElement(Math.random()>0.5?"🌹":"❤️");
+    el.style.top = Math.random()*window.innerHeight + "px";
+    el.style.left = "-40px";
+    el.animate([
+        {transform:"translateX(0) scale(0.6)",opacity:0.8},
+        {transform:"translateX(100vw) scale(1.4)",opacity:0}
+    ],{duration:5000,easing:"linear"});
+    setTimeout(()=>el.remove(),5000);
+}
+
+/* Diagonal Movement */
+function diagonalMove(){
+    const el = createElement(Math.random()>0.5?"❤️":"🌹");
+    el.style.left = "-40px";
+    el.style.top = "-40px";
+    el.animate([
+        {transform:"translate(0,0) scale(0.5)",opacity:0.8},
+        {transform:"translate(100vw,100vh) scale(1.8)",opacity:0}
+    ],{duration:6000,easing:"linear"});
+    setTimeout(()=>el.remove(),6000);
+}
+
+/* Pop from bottom */
+function popUp(){
+    const el = createElement(Math.random()>0.5?"❤️":"🌹");
+    el.style.left = Math.random()*window.innerWidth + "px";
+    el.style.bottom = "0px";
+    el.animate([
+        {transform:"translateY(0) scale(0.3)",opacity:0.9},
+        {transform:"translateY(-50vh) scale(1.2)",opacity:1},
+        {transform:"translateY(-110vh) scale(2)",opacity:0}
+    ],{duration:4500,easing:"ease-out"});
+    setTimeout(()=>el.remove(),4500);
+}
+
+/* Background romantic mix */
+function startRomanticBackground(){
+    setInterval(verticalFall,300);
+    setInterval(horizontalMove,1200);
+    setInterval(diagonalMove,2000);
+    setInterval(popUp,800);
+}
+
+/* Heavy mode after YES */
+function startCrazyRomance(){
+    setInterval(verticalFall,100);
+    setInterval(horizontalMove,400);
+    setInterval(diagonalMove,700);
+    setInterval(popUp,300);
+}
+
+startRomanticBackground();
+
+</script>
+
+</body>
+</html>
